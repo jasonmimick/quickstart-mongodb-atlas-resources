@@ -1,0 +1,39 @@
+[2021-01-22T16:33:29Z] DEBUG    - Logging set up successfully
+[2021-01-22T16:33:29Z] DEBUG    - Running generate: Namespace(command=<function generate at 0x1054e3d90>, subparser_name='generate', verbose=0, version=False)
+[2021-01-22T16:33:29Z] DEBUG    - Root directory: /Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project
+[2021-01-22T16:33:29Z] DEBUG    - Loading project file '/Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/.rpdk-config'
+[2021-01-22T16:33:29Z] INFO     - Validating your resource schema...
+[2021-01-22T16:33:29Z] DEBUG    - Resolved '#/definitions/apiKeyDefinition' to 'file:///Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition'
+[2021-01-22T16:33:29Z] DEBUG    - Parsed 'file:///Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-01-22T16:33:29Z] DEBUG    - Edge from '(<BASE>, 'properties', 'ApiKeys')' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-01-22T16:33:29Z] DEBUG    - Rewriting refs in '<BASE>' (file:///Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json)
+[2021-01-22T16:33:29Z] DEBUG    -   '#/definitions/apiKeyDefinition' -> '#/definitions/apiKeyDefinition'
+[2021-01-22T16:33:29Z] DEBUG    - Writing Resource Role CloudFormation template: /Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml
+[2021-01-22T16:33:29Z] DEBUG    - Overwriting '/Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml'
+[2021-01-22T16:33:29Z] DEBUG    - Generate started
+[2021-01-22T16:33:29Z] DEBUG    - Writing Types
+[2021-01-22T16:33:29Z] DEBUG    - Overwriting '/Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/resource/model.go'
+[2021-01-22T16:33:29Z] DEBUG    - Writing project: /Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go
+[2021-01-22T16:33:29Z] DEBUG    - Overwriting '/Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go'
+[2021-01-22T16:33:29Z] DEBUG    - Writing Makefile: /Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/Makefile
+[2021-01-22T16:33:29Z] DEBUG    - Overwriting '/Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/Makefile'
+[2021-01-22T16:33:30Z] DEBUG    - Caught downstream error
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/rpdk/go/codegen.py", line 177, in generate
+    ["go", "fmt", path], cwd=root, check=True, capture_output=True
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/subprocess.py", line 487, in run
+    output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['go', 'fmt', PosixPath('/Users/shukvino/dev/vsnyc/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/resource/model.go')]' returned non-zero exit status 1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/rpdk/core/cli.py", line 98, in main
+    args.command(args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/rpdk/core/generate.py", line 15, in generate
+    project.generate()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/rpdk/core/project.py", line 303, in generate
+    return self._plugin.generate(self)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/rpdk/go/codegen.py", line 180, in generate
+    raise DownstreamError("go fmt failed") from e
+rpdk.core.exceptions.DownstreamError: go fmt failed
