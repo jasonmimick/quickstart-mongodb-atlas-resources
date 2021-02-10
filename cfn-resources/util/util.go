@@ -3,7 +3,8 @@ package util
 import (
 	"github.com/Sectorbob/mlab-ns2/gae/ns/digest"
 	"go.mongodb.org/atlas/mongodbatlas"
-    log "github.com/sirupsen/logrus"
+   logrus "github.com/sirupsen/logrus"
+   "log"
 	"strings"
     "os"
 )
@@ -16,18 +17,21 @@ const (
 // and returns "US_EAST_1" -- i.e. a valid Atlas region
 func EnsureAtlasRegion(region string) string {
 	r := strings.ToUpper(strings.Replace(string(region), "-", "_", -1))
+    log.Printf("EnsureAtlasRegion--- region:%s r:%s", region,r)
 	return r
 }
 // This takes either "us-east-1" or "US_EAST_1"
 // and returns "us-east-1" -- i.e. a valid AWS region
 func EnsureAWSRegion(region string) string {
 	r := strings.ToLower(strings.Replace(string(region), "_", "-", -1))
+    log.Printf("EnsureAWSRegion--- region:%s r:%s", region,r)
 	return r
 }
 
 func CreateMongoDBClient(publicKey, privateKey string) (*mongodbatlas.Client, error) {
 	// setup a transport to handle digest
-	log.Debugf("CreateMongoDBClient--- publicKey:%s", publicKey)
+	log.Printf("CreateMongoDBClient--- publicKey:%s", publicKey)
+	logrus.Debugf("CreateMongoDBClient--- publicKey:%s", publicKey)
 	transport := digest.NewTransport(publicKey, privateKey)
 
 	// initialize the client
@@ -46,14 +50,15 @@ func CreateMongoDBClient(publicKey, privateKey string) (*mongodbatlas.Client, er
 // the logger consistently
 func InitLogger() {
   // Log as JSON instead of the default ASCII formatter.
-  log.SetFormatter(&log.JSONFormatter{})
+  logrus.SetFormatter(&logrus.JSONFormatter{})
 
   // Output to stdout instead of the default stderr
   // Can be any io.Writer, see below for File example
-  log.SetOutput(os.Stdout)
+  logrus.SetOutput(os.Stdout)
+
 
   // Only log the warning severity or above.
-  log.SetLevel(log.DebugLevel)
+  logrus.SetLevel(logrus.DebugLevel)
   //log.SetLevel(log.WarnLevel)
 }
 

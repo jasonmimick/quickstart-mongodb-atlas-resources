@@ -1,0 +1,28 @@
+{
+  "Username": "DataUser1",
+  "Password": "MongoDB12345%",
+  "ProjectId": "60229fe89ec29e6f2878b445",
+  "ApiKeys": {
+    "PublicKey": "ATYOKSFO",
+    "PrivateKey": "f65014a7-b076-49ba-ab87-633797aa7ac3"
+  },
+  "DatabaseName": "admin",
+  "Roles": [
+    {
+      "RoleName": "readWrite",
+      "DatabaseName": "testdb",
+      "CollectionName": "col1"
+    },
+    {
+      "RoleName": "read",
+      "DatabaseName": "proddb",
+      "CollectionName": "col1"
+    }
+  ],
+  "Scopes": [
+    {
+      "Type": "CLUSTER",
+      "Name": "testdb"
+    }
+  ]
+}

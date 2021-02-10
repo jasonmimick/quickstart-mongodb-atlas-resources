@@ -38,7 +38,7 @@ RUN cd project-ip-access-list && \
     zip -X ../handler.zip ./handler && \
     cd .. && \
     cp mongodb-atlas-projectipaccesslist.json schema.json && \
-    zip -X ../mongodb-atlas-projectipaccesslist.zip ./handler.zip ./schema.json ./.rpdk-config 
+    zip -X ../mongodb-atlas-projectipaccesslist.zip ./handler.zip ./schema.json ./.rpdk-config
     
 RUN cd network-peering && \
     make && \
@@ -48,4 +48,4 @@ RUN cd network-peering && \
     cp mongodb-atlas-networkpeering.json schema.json && \
     zip -X ../mongodb-atlas-networkpeering.zip ./handler.zip ./schema.json ./.rpdk-config 
     
-CMD mkdir -p /output/ && mv /build/*.zip /output/
+CMD mkdir -p /output/ && mv /build/*.zip /output/ 

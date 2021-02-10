@@ -1773,3 +1773,153 @@ rpdk.core.exceptions.SysExitRecommendedError: One or more contract tests failed
 [2021-01-26T17:28:01Z] DEBUG    - Received response
 {'message': 'Resource Not Found', 'status': 'FAILED', 'errorCode': 'NotFound', 'bearerToken': 'ff95ec62-1804-4b7d-9029-3630e8fd2a50', 'resourceModels': None}
 [2021-01-26T17:28:01Z] DEBUG    - Finished test
+[2021-02-08T15:02:18Z] DEBUG    - Logging set up successfully
+[2021-02-08T15:02:18Z] DEBUG    - Running generate: Namespace(command=<function generate at 0x7f8b02020ea0>, subparser_name='generate', verbose=0, version=False)
+[2021-02-08T15:02:18Z] DEBUG    - Root directory: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project
+[2021-02-08T15:02:18Z] DEBUG    - Loading project file '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/.rpdk-config'
+[2021-02-08T15:02:18Z] INFO     - Validating your resource specification...
+[2021-02-08T15:02:18Z] DEBUG    - Resolved '#/definitions/apiKeyDefinition' to 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition'
+[2021-02-08T15:02:18Z] DEBUG    - Parsed 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-08T15:02:18Z] DEBUG    - Edge from '(<BASE>, 'properties', 'ApiKeys')' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-08T15:02:18Z] DEBUG    - Rewriting refs in '<BASE>' (file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json)
+[2021-02-08T15:02:18Z] DEBUG    -   '#/definitions/apiKeyDefinition' -> '#/definitions/apiKeyDefinition'
+[2021-02-08T15:02:18Z] WARNING  - Resource schema is valid.
+[2021-02-08T15:02:18Z] DEBUG    - Writing Resource Role CloudFormation template: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml
+[2021-02-08T15:02:18Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml'
+[2021-02-08T15:02:18Z] DEBUG    - Generate started
+[2021-02-08T15:02:18Z] DEBUG    - Writing Types
+[2021-02-08T15:02:18Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/resource/model.go'
+[2021-02-08T15:02:18Z] DEBUG    - Writing project: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go
+[2021-02-08T15:02:18Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go'
+[2021-02-08T15:02:18Z] DEBUG    - Writing makebuild: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/makebuild
+[2021-02-08T15:02:18Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/makebuild'
+[2021-02-08T15:02:19Z] DEBUG    - Removing generated docs: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs
+[2021-02-08T15:02:19Z] DEBUG    - Writing generated docs
+[2021-02-08T15:02:19Z] DEBUG    - Writing docs apikeydefinition.md: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs/apikeydefinition.md
+[2021-02-08T15:02:19Z] DEBUG    - Finished documenting nested properties
+[2021-02-08T15:02:19Z] DEBUG    - Writing docs README: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs/README.md
+[2021-02-08T15:02:19Z] WARNING  - Generated files for MongoDB::Atlas::Project
+[2021-02-08T15:02:19Z] DEBUG    - Finished generate
+[2021-02-08T15:14:34Z] DEBUG    - Logging set up successfully
+[2021-02-08T15:14:34Z] DEBUG    - Running generate: Namespace(command=<function generate at 0x7f50a872fea0>, subparser_name='generate', verbose=0, version=False)
+[2021-02-08T15:14:34Z] DEBUG    - Root directory: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project
+[2021-02-08T15:14:34Z] DEBUG    - Loading project file '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/.rpdk-config'
+[2021-02-08T15:14:34Z] INFO     - Validating your resource specification...
+[2021-02-08T15:14:34Z] DEBUG    - Resolved '#/definitions/apiKeyDefinition' to 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition'
+[2021-02-08T15:14:34Z] DEBUG    - Parsed 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-08T15:14:34Z] DEBUG    - Edge from '(<BASE>, 'properties', 'ApiKeys')' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-08T15:14:34Z] DEBUG    - Rewriting refs in '<BASE>' (file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json)
+[2021-02-08T15:14:34Z] DEBUG    -   '#/definitions/apiKeyDefinition' -> '#/definitions/apiKeyDefinition'
+[2021-02-08T15:14:34Z] WARNING  - Resource schema is valid.
+[2021-02-08T15:14:34Z] DEBUG    - Writing Resource Role CloudFormation template: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml
+[2021-02-08T15:14:34Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml'
+[2021-02-08T15:14:34Z] DEBUG    - Generate started
+[2021-02-08T15:14:34Z] DEBUG    - Writing Types
+[2021-02-08T15:14:34Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/resource/model.go'
+[2021-02-08T15:14:34Z] DEBUG    - Writing project: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go
+[2021-02-08T15:14:34Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go'
+[2021-02-08T15:14:34Z] DEBUG    - Writing makebuild: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/makebuild
+[2021-02-08T15:14:34Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/makebuild'
+[2021-02-08T15:14:34Z] DEBUG    - Removing generated docs: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs
+[2021-02-08T15:14:34Z] DEBUG    - Writing generated docs
+[2021-02-08T15:14:34Z] DEBUG    - Writing docs apikeydefinition.md: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs/apikeydefinition.md
+[2021-02-08T15:14:34Z] DEBUG    - Finished documenting nested properties
+[2021-02-08T15:14:34Z] DEBUG    - Writing docs README: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs/README.md
+[2021-02-08T15:14:34Z] WARNING  - Generated files for MongoDB::Atlas::Project
+[2021-02-08T15:14:34Z] DEBUG    - Finished generate
+[2021-02-08T15:21:15Z] DEBUG    - Logging set up successfully
+[2021-02-08T15:21:15Z] DEBUG    - Running submit: Namespace(command=<function submit at 0x7fc2168fa620>, dry_run=False, endpoint_url=None, region='us-east-2', role_arn=None, set_default=True, subparser_name='submit', use_role=True, verbose=1, version=False)
+[2021-02-08T15:21:15Z] DEBUG    - Root directory: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project
+[2021-02-08T15:21:15Z] DEBUG    - Loading project file '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/.rpdk-config'
+[2021-02-08T15:21:15Z] INFO     - Validating your resource specification...
+[2021-02-08T15:21:15Z] DEBUG    - Resolved '#/definitions/apiKeyDefinition' to 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition'
+[2021-02-08T15:21:15Z] DEBUG    - Parsed 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-08T15:21:15Z] DEBUG    - Edge from '(<BASE>, 'properties', 'ApiKeys')' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-08T15:21:15Z] DEBUG    - Rewriting refs in '<BASE>' (file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json)
+[2021-02-08T15:21:15Z] DEBUG    -   '#/definitions/apiKeyDefinition' -> '#/definitions/apiKeyDefinition'
+[2021-02-08T15:21:15Z] WARNING  - Resource schema is valid.
+[2021-02-08T15:21:15Z] DEBUG    - overrides.json not found. Not writing to package.
+[2021-02-08T15:21:15Z] DEBUG    - inputs_1_invalid.json found. Writing to package.
+[2021-02-08T15:21:15Z] DEBUG    - inputs_1_create.json found. Writing to package.
+[2021-02-08T15:21:15Z] INFO     - Packaging Go project
+[2021-02-08T15:21:15Z] DEBUG    - Version info is not available for plugins, not writing to metadata file
+[2021-02-08T15:21:15Z] DEBUG    - Packaging complete, uploading...
+[2021-02-08T15:21:15Z] DEBUG    - Uploading to region 'us-east-2'
+[2021-02-08T15:21:15Z] DEBUG    - Creating execution role for provider to use
+[2021-02-08T15:21:15Z] INFO     - Creating mongodb-atlas-project-role-stack
+[2021-02-08T15:21:15Z] INFO     - mongodb-atlas-project-role-stack already exists. Attempting to update
+[2021-02-08T15:21:16Z] DEBUG    - Waiting for stack 'arn:aws:cloudformation:us-east-2:466197078724:stack/mongodb-atlas-project-role-stack/4ea8cb90-fcfa-11ea-9568-0ae88afcf40c'
+[2021-02-08T15:21:41Z] INFO     - mongodb-atlas-project-role-stack stack is up to date
+[2021-02-08T15:21:41Z] INFO     - Creating CloudFormationManagedUploadInfrastructure
+[2021-02-08T15:21:41Z] INFO     - CloudFormationManagedUploadInfrastructure already exists. Attempting to update
+[2021-02-08T15:21:42Z] INFO     - CloudFormationManagedUploadInfrastructure stack is up to date
+[2021-02-08T15:21:43Z] DEBUG    - Uploading to 'cloudformationmanageduploadinfrast-artifactbucket-1gkfndt2b4hc8/mongodb-atlas-project-2021-02-08T15-21-43.zip'...
+[2021-02-08T15:21:51Z] DEBUG    - Upload complete
+[2021-02-08T15:21:51Z] DEBUG    - Got S3 URL: s3://cloudformationmanageduploadinfrast-artifactbucket-1gkfndt2b4hc8/mongodb-atlas-project-2021-02-08T15-21-43.zip
+[2021-02-08T15:21:51Z] DEBUG    - Got Log Role: arn:aws:iam::466197078724:role/CloudFormationManagedUplo-LogAndMetricsDeliveryRol-E5U4EBFQDYFR
+[2021-02-08T15:21:52Z] WARNING  - Successfully submitted type. Waiting for registration with token '81557364-fb9c-4331-ac98-41022af50eb0' to complete.
+[2021-02-08T15:22:22Z] WARNING  - Registration complete.
+[2021-02-08T15:22:22Z] WARNING  - {'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED; ', 'TypeArn': 'arn:aws:cloudformation:us-east-2:466197078724:type/resource/MongoDB-Atlas-Project', 'TypeVersionArn': 'arn:aws:cloudformation:us-east-2:466197078724:type/resource/MongoDB-Atlas-Project/00000027', 'ResponseMetadata': {'RequestId': '6448a35f-1c8b-4c3c-9674-a61551c1d6b2', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '6448a35f-1c8b-4c3c-9674-a61551c1d6b2', 'content-type': 'text/xml', 'content-length': '681', 'date': 'Mon, 08 Feb 2021 15:22:22 GMT'}, 'RetryAttempts': 0}}
+[2021-02-08T15:22:22Z] WARNING  - Set default version to 'arn:aws:cloudformation:us-east-2:466197078724:type/resource/MongoDB-Atlas-Project/00000027
+[2021-02-08T15:22:22Z] DEBUG    - Finished submit
+[2021-02-09T14:16:57Z] DEBUG    - Logging set up successfully
+[2021-02-09T14:16:57Z] DEBUG    - Running generate: Namespace(command=<function generate at 0x7f91c4aa1f28>, subparser_name='generate', verbose=0, version=False)
+[2021-02-09T14:16:57Z] DEBUG    - Root directory: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project
+[2021-02-09T14:16:57Z] DEBUG    - Loading project file '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/.rpdk-config'
+[2021-02-09T14:16:57Z] INFO     - Validating your resource specification...
+[2021-02-09T14:16:57Z] DEBUG    - Resolved '#/definitions/apiKeyDefinition' to 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition'
+[2021-02-09T14:16:57Z] DEBUG    - Parsed 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-09T14:16:57Z] DEBUG    - Edge from '(<BASE>, 'properties', 'ApiKeys')' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-09T14:16:57Z] DEBUG    - Rewriting refs in '<BASE>' (file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json)
+[2021-02-09T14:16:57Z] DEBUG    -   '#/definitions/apiKeyDefinition' -> '#/definitions/apiKeyDefinition'
+[2021-02-09T14:16:57Z] WARNING  - Resource schema is valid.
+[2021-02-09T14:16:57Z] DEBUG    - Writing Resource Role CloudFormation template: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml
+[2021-02-09T14:16:57Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/resource-role.yaml'
+[2021-02-09T14:16:57Z] DEBUG    - Generate started
+[2021-02-09T14:16:57Z] DEBUG    - Writing Types
+[2021-02-09T14:16:57Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/resource/model.go'
+[2021-02-09T14:16:57Z] DEBUG    - Writing project: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go
+[2021-02-09T14:16:57Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/cmd/main.go'
+[2021-02-09T14:16:57Z] DEBUG    - Writing makebuild: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/makebuild
+[2021-02-09T14:16:57Z] DEBUG    - Overwriting '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/makebuild'
+[2021-02-09T14:16:58Z] DEBUG    - Removing generated docs: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs
+[2021-02-09T14:16:58Z] DEBUG    - Writing generated docs
+[2021-02-09T14:16:58Z] DEBUG    - Writing docs apikeydefinition.md: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs/apikeydefinition.md
+[2021-02-09T14:16:58Z] DEBUG    - Finished documenting nested properties
+[2021-02-09T14:16:58Z] DEBUG    - Writing docs README: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/docs/README.md
+[2021-02-09T14:16:58Z] WARNING  - Generated files for MongoDB::Atlas::Project
+[2021-02-09T14:16:58Z] DEBUG    - Finished generate
+[2021-02-09T14:17:03Z] DEBUG    - Logging set up successfully
+[2021-02-09T14:17:03Z] DEBUG    - Running submit: Namespace(command=<function submit at 0x7f4b062af620>, dry_run=False, endpoint_url=None, region=None, role_arn=None, set_default=True, subparser_name='submit', use_role=True, verbose=1, version=False)
+[2021-02-09T14:17:03Z] DEBUG    - Root directory: /home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project
+[2021-02-09T14:17:03Z] DEBUG    - Loading project file '/home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/.rpdk-config'
+[2021-02-09T14:17:03Z] INFO     - Validating your resource specification...
+[2021-02-09T14:17:03Z] DEBUG    - Resolved '#/definitions/apiKeyDefinition' to 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition'
+[2021-02-09T14:17:03Z] DEBUG    - Parsed 'file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json#/definitions/apiKeyDefinition' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-09T14:17:03Z] DEBUG    - Edge from '(<BASE>, 'properties', 'ApiKeys')' to '(<BASE>, 'definitions', 'apiKeyDefinition')'
+[2021-02-09T14:17:03Z] DEBUG    - Rewriting refs in '<BASE>' (file:///home/jason/work/mongodbatlas-cloudformation-resources/cfn-resources/project/mongodb-atlas-project.json)
+[2021-02-09T14:17:03Z] DEBUG    -   '#/definitions/apiKeyDefinition' -> '#/definitions/apiKeyDefinition'
+[2021-02-09T14:17:03Z] WARNING  - Resource schema is valid.
+[2021-02-09T14:17:03Z] DEBUG    - overrides.json not found. Not writing to package.
+[2021-02-09T14:17:03Z] DEBUG    - inputs_1_invalid.json found. Writing to package.
+[2021-02-09T14:17:03Z] DEBUG    - inputs_1_create.json found. Writing to package.
+[2021-02-09T14:17:03Z] INFO     - Packaging Go project
+[2021-02-09T14:17:03Z] DEBUG    - Version info is not available for plugins, not writing to metadata file
+[2021-02-09T14:17:03Z] DEBUG    - Packaging complete, uploading...
+[2021-02-09T14:17:03Z] DEBUG    - Uploading to region 'us-east-1'
+[2021-02-09T14:17:03Z] DEBUG    - Creating execution role for provider to use
+[2021-02-09T14:17:03Z] INFO     - Creating mongodb-atlas-project-role-stack
+[2021-02-09T14:17:03Z] INFO     - mongodb-atlas-project-role-stack already exists. Attempting to update
+[2021-02-09T14:17:04Z] INFO     - mongodb-atlas-project-role-stack stack is up to date
+[2021-02-09T14:17:04Z] INFO     - Creating CloudFormationManagedUploadInfrastructure
+[2021-02-09T14:17:04Z] INFO     - CloudFormationManagedUploadInfrastructure already exists. Attempting to update
+[2021-02-09T14:17:04Z] INFO     - CloudFormationManagedUploadInfrastructure stack is up to date
+[2021-02-09T14:17:05Z] DEBUG    - Uploading to 'cloudformationmanageduploadinfrast-artifactbucket-1b7zznt381p09/mongodb-atlas-project-2021-02-09T14-17-05.zip'...
+[2021-02-09T14:17:12Z] DEBUG    - Upload complete
+[2021-02-09T14:17:12Z] DEBUG    - Got S3 URL: s3://cloudformationmanageduploadinfrast-artifactbucket-1b7zznt381p09/mongodb-atlas-project-2021-02-09T14-17-05.zip
+[2021-02-09T14:17:12Z] DEBUG    - Got Log Role: arn:aws:iam::466197078724:role/CloudFormationManagedUplo-LogAndMetricsDeliveryRol-1DJPLCX7S5HLG
+[2021-02-09T14:17:13Z] WARNING  - Successfully submitted type. Waiting for registration with token 'fce78f6b-61e3-4eb7-97d1-6eb0b64c5e09' to complete.
+[2021-02-09T14:18:14Z] WARNING  - Registration complete.
+[2021-02-09T14:18:14Z] WARNING  - {'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED; ', 'TypeArn': 'arn:aws:cloudformation:us-east-1:466197078724:type/resource/MongoDB-Atlas-Project', 'TypeVersionArn': 'arn:aws:cloudformation:us-east-1:466197078724:type/resource/MongoDB-Atlas-Project/00000105', 'ResponseMetadata': {'RequestId': 'c1b532f1-ae36-4bab-a0ce-bc2ae7cbf835', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'c1b532f1-ae36-4bab-a0ce-bc2ae7cbf835', 'content-type': 'text/xml', 'content-length': '681', 'date': 'Tue, 09 Feb 2021 14:18:13 GMT'}, 'RetryAttempts': 0}}
+[2021-02-09T14:18:14Z] WARNING  - Set default version to 'arn:aws:cloudformation:us-east-1:466197078724:type/resource/MongoDB-Atlas-Project/00000105
+[2021-02-09T14:18:14Z] DEBUG    - Finished submit

@@ -23,7 +23,12 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                - "secretsmanager:*"
+                - "secretsmanager:CreateSecret"
+                - "secretsmanager:CreateSecretInput"
+                - "secretsmanager:DescribeSecret"
+                - "secretsmanager:GetSecretValue"
+                - "secretsmanager:PutSecretValue"
+                - "secretsmanager:UpdateSecretVersionStage"
                 Resource: "*"
 Outputs:
   ExecutionRoleArn:

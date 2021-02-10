@@ -1,0 +1,19 @@
+{
+  "ProjectId": "6011ae2546e5c41c83cadd7f",
+  "ApiKeys": {
+    "PublicKey": "ATYOKSFO",
+    "PrivateKey": "f65014a7-b076-49ba-ab87-633797aa7ac3"
+  },
+  "AccessList": [
+    {
+      "IPAddress": "10.0.2.1",
+      "ProjectId": "6011ae2546e5c41c83cadd7f",
+      "Comment": "Testing ips"
+    },
+    {
+      "CIDRBlock": "203.0.113.0/24",
+      "ProjectId": "6011ae2546e5c41c83cadd7f",
+      "Comment": "CIDR block for Application Server B - D"
+    }
+  ]
+}

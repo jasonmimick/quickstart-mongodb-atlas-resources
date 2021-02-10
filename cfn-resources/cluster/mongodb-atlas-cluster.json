@@ -270,12 +270,7 @@
     },
     "additionalProperties": false,
     "required": [
-        "Name",
-        "ProviderSettings/InstanceSizeName",
-        "ProviderSettings/RegionName"
-    ],
-    "writeOnlyProperties": [
-        "/properties/ProviderSettings/InstanceSizeName"
+        "Name"
     ],
     "readOnlyProperties": [
         "/properties/ConnectionStrings/Standard",
@@ -297,22 +292,42 @@
     "handlers": {
         "create": {
             "permissions": [
-                "secretsmanager:*"
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:UpdateSecretVersionStage",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:CreateSecretInput"
             ]
         },
         "read": {
             "permissions": [
-                "secretsmanager:*"
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:UpdateSecretVersionStage",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:CreateSecretInput"
             ]
         },
         "update": {
             "permissions": [
-                "secretsmanager:*"
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:UpdateSecretVersionStage",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:CreateSecretInput"
             ]
         },
         "delete": {
             "permissions": [
-                "secretsmanager:*"
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:UpdateSecretVersionStage",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:CreateSecretInput"
             ]
         }
     }
