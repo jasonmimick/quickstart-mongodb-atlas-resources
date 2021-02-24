@@ -27,7 +27,41 @@ var (
 )
 
 func init() {
-    util.InitLogger()
+    log.SetFormatter(&log.JSONFormatter{})
+
+    //log.SetFormatter(&log.JSONFormatter{})
+
+    // Output to stdout instead of the default stderr
+    // Can be any io.Writer, see below for File example
+    log.SetOutput(os.Stdout)
+
+
+    // Only log the warning severity or above.
+    log.SetLevel(log.DebugLevel)
+}
+
+func findContainer(projectId string, region string, currentModel *Model) (bool, *mongodbatlas.Container, error) {
+    var container mongodbatlas.Container
+    log.Debugf("findContainer projectId:%+v, region:%+v", projectId, region)
+	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
+	if err != nil {
+		return false, &container, err
+	}
+	opt := &mongodbatlas.ContainersListOptions{ProviderName: "AWS"}
+	log.Debugf("Looking for any AWS containers for this project:%s. opt:%+v", projectId, opt)
+	containers, _, err := client.Containers.List(context.TODO(), projectId, opt)
+	if err != nil {
+		return false, &container, err
+	}
+	log.Debugf("found AWS containers for project:%+v", containers)
+	for i := range containers {
+		log.Debugf("RegionName:%s, region:%s", containers[i].RegionName, region)
+		if containers[i].RegionName == region {
+			log.Debugf("Found AWS container for region:%v, %v", region, containers[i])
+			return true, &containers[i], nil
+		}
+	}
+    return false, &container, nil
 }
 func validateOrCreateNetworkContainer(req *handler.Request, prevModel *Model, currentModel *Model) (*mongodbatlas.Container, error) {
 	log.Debugf("validateOrCreateNetworkContainer prevModel:%+v, currentModel:%+v", prevModel, currentModel)
@@ -37,10 +71,6 @@ func validateOrCreateNetworkContainer(req *handler.Request, prevModel *Model, cu
 	}
 	if currentModel.ProjectId == nil {
 		return &container, fmt.Errorf("ProjectId was not set! currentModel:%+v", currentModel)
-	}
-	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
-	if err != nil {
-		return &container, err
 	}
 
 	var ar string
@@ -61,26 +91,13 @@ func validateOrCreateNetworkContainer(req *handler.Request, prevModel *Model, cu
 	// if so return it -
 	// if passed a ContainerId and it does not match, then
 	// return an ERROR, explain to remove the ContainerId parameter
-	opt := &mongodbatlas.ContainersListOptions{ProviderName: "AWS"}
-	log.Debugf("Looking for any AWS containers for this project:%s. opt:%+v", projectId, opt)
-	cr, _, err := client.Containers.List(context.TODO(), projectId, opt)
+    found, c, err := findContainer(projectId, *region, currentModel)
 	if err != nil {
 		return &container, err
 	}
-	log.Debugf("found AWS containers for project:%+v", cr)
-	// cr is a list, need filter on our region?
-	for i := range cr {
-		log.Debugf("RegionName:%s, region:%s", cr[i].RegionName, *region)
-		if cr[i].RegionName == *region {
-			log.Debugf("Found AWS container for region:%v, %v", region, cr[i])
-			if currentModel.ContainerId != nil {
-				if cr[i].ID != *currentModel.ContainerId {
-					log.Debugf("Error: resource has ContainerId set to %v, however there is already an AWS Network Container for this Atlas Project:%+v. Remove the ContainerId property from your template and rety.", *currentModel.ContainerId, cr[i])
-				}
-			}
-			return &cr[i], nil
-		}
-	}
+    if found {
+        return c, nil 
+    }
 	// Didn't find one for this AWS region, need to create
 	log.Debugf("projectId:%v, region:%v, cidr:%+v", projectId, region, &DefaultAWSCIDR)
 	containerRequest := &mongodbatlas.Container{}
@@ -88,10 +105,25 @@ func validateOrCreateNetworkContainer(req *handler.Request, prevModel *Model, cu
 	containerRequest.ProviderName = "AWS"
 	containerRequest.AtlasCIDRBlock = DefaultAWSCIDR
 	log.Debugf("containerRequest:%+v", containerRequest)
-	containerResponse, _, err := client.Containers.Create(context.TODO(), *currentModel.ProjectId, containerRequest)
+	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return &container, err
 	}
+	containerResponse, resp, err := client.Containers.Create(context.TODO(), *currentModel.ProjectId, containerRequest)
+	if err != nil {
+		return &container, err
+	}
+    // TODO add logging here
+    if resp != nil && resp.StatusCode == 409 {
+        found, c, err := findContainer(projectId, *region, currentModel)
+        if err != nil {
+            return c, err
+        }
+        if found {
+            return c, nil 
+        }
+            
+    }
 	log.Debugf("created container response:%v", containerResponse)
 	return containerResponse, nil
 }
