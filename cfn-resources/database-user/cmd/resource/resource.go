@@ -3,7 +3,7 @@ package resource
 import (
 	"context"
 	"fmt"
-    log "github.com/sirupsen/logrus"
+    "log"
     "github.com/aws/aws-sdk-go/service/cloudformation"
 	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/handler"
 	"github.com/davecgh/go-spew/spew"
@@ -11,14 +11,10 @@ import (
 	"go.mongodb.org/atlas/mongodbatlas"
 )
 
-func init() {
-    util.InitLogger()
-}
-
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    log.Info("Create handler called")
-	log.Debugf(" currentModel: %#+v, prevModel: %#+v", currentModel, prevModel)
+    log.Print("Create handler called")
+	log.Printf(" currentModel: %#+v, prevModel: %#+v", currentModel, prevModel)
     
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -46,7 +42,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 		roles = append(roles, role)
 	}
-	log.Debugf("roles: %#+v", roles)
+	log.Printf("roles: %#+v", roles)
 
 	var labels []mongodbatlas.Label
 	for i, _ := range currentModel.Labels {
@@ -57,7 +53,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 		}
 		labels = append(labels, label)
 	}
-	log.Debugf("labels: %#+v", labels)
+	log.Printf("labels: %#+v", labels)
 
 	var scopes []mongodbatlas.Scope
 	for i, _ := range currentModel.Scopes {
@@ -68,10 +64,10 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 		}
 		scopes = append(scopes, scope)
 	}
-	log.Debugf("scopes: %#+v", scopes)
+	log.Printf("scopes: %#+v", scopes)
 
 	groupID := *currentModel.ProjectId
-	log.Debugf("groupID: %#+v", groupID)
+	log.Printf("groupID: %#+v", groupID)
 
 	none := "NONE"
 	if currentModel.LdapAuthType == nil {
@@ -118,19 +114,19 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
     */
     cfnid := fmt.Sprintf("%s-%s",user.Username,groupID)
 	currentModel.UserCFNIdentifier = &cfnid 
-	log.Infof("Created UserCFNIdentifier: %s", cfnid)
+	log.Printf("Created UserCFNIdentifier: %s", cfnid)
 
-	log.Debugf("Arguments: Project ID: %s, Request %#+v", groupID, user)
+	log.Printf("Arguments: Project ID: %s, Request %#+v", groupID, user)
 
 	newUser, res, err := client.DatabaseUsers.Create(context.Background(), groupID, user)
 	if err != nil {
-        log.Errorf("Error creating new db user: res:%+v, err:%+v", res, err)
+        log.Printf("Error creating new db user: res:%+v, err:%+v", res, err)
         return handler.ProgressEvent{
             Message: err.Error(),
             OperationStatus: handler.Failed,
             HandlerErrorCode: cloudformation.HandlerErrorCodeInvalidRequest}, nil
 	}
-	log.Debugf("newUser: %s", newUser)
+	log.Printf("newUser: %s", newUser)
 
 	return handler.ProgressEvent{
 		OperationStatus: handler.Success,
@@ -154,15 +150,15 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 	dbName := *currentModel.DatabaseName
 	databaseUser, resp, err := client.DatabaseUsers.Get(context.Background(), dbName, groupID, username)
 	if err != nil {
-        log.Errorf("error fetching database user:%s, error: %s", groupID, dbName, username, err)
+        log.Printf("error fetching database user:%s, error: %s", groupID, dbName, username, err)
 		if resp != nil && resp.StatusCode == 404 {
-            log.Warnf("Resource Not Found 404 for READ groupId:%s, dbName:%s, database user:%s, err:%+v, resp:%+v", groupID, dbName, username, err, resp)
+            log.Printf("Resource Not Found 404 for READ groupId:%s, dbName:%s, database user:%s, err:%+v, resp:%+v", groupID, dbName, username, err, resp)
             return handler.ProgressEvent{
                 Message: err.Error(),
                 OperationStatus: handler.Failed,
                 HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, nil
 		} else {
-            log.Errorf("Error READ groupId:%s, dbName:%s, database user:%s, err:%+v, resp:%+v", groupID, dbName, username, err, resp)
+            log.Printf("Error READ groupId:%s, dbName:%s, database user:%s, err:%+v, resp:%+v", groupID, dbName, username, err, resp)
             return handler.ProgressEvent{
                 Message: err.Error(),
                 OperationStatus: handler.Failed,
@@ -174,7 +170,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 	currentModel.LdapAuthType = &databaseUser.LDAPAuthType
 	currentModel.Username = &databaseUser.Username
 
-    log.Debugf("databaseUser:%+v",databaseUser)
+    log.Printf("databaseUser:%+v",databaseUser)
 	var roles []RoleDefinition
 
 	for i, _ := range databaseUser.Roles {
@@ -188,7 +184,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 		roles = append(roles, role)
 	}
 	currentModel.Roles = roles
-    log.Debugf("currentModel.Roles:%+v",roles)
+    log.Printf("currentModel.Roles:%+v",roles)
 	var labels []LabelDefinition
 
 	for i, _ := range databaseUser.Labels {
@@ -204,7 +200,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
     cfnid := fmt.Sprintf("%s-%s",*currentModel.Username,groupID)
 	currentModel.UserCFNIdentifier = &cfnid 
-    log.Debugf("READ----> currentModel:%s", spew.Sdump(currentModel))
+    log.Printf("READ----> currentModel:%s", spew.Sdump(currentModel))
 	return handler.ProgressEvent{
 		OperationStatus: handler.Success,
 		Message:         "Read Complete",
@@ -222,7 +218,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
             HandlerErrorCode: cloudformation.HandlerErrorCodeInvalidRequest}, nil
 	}
 
-    log.Debugf("Update currentModel:%+v",currentModel)
+    log.Printf("Update currentModel:%+v",currentModel)
     roles := []mongodbatlas.Role{} 
 	for i, _ := range currentModel.Roles {
         r := currentModel.Roles[i]
@@ -237,7 +233,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 		roles = append(roles, role)
 	}
 
-    log.Debugf("Update roles:%+v",roles)
+    log.Printf("Update roles:%+v",roles)
     labels := []mongodbatlas.Label{} 
 	for i, _:= range currentModel.Labels {
         l := currentModel.Labels[i]
@@ -253,7 +249,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
     }
 	groupID := *currentModel.ProjectId
 	username := *currentModel.Username
-    log.Debugf("groupID:%s, username:%s",groupID, username)
+    log.Printf("groupID:%s, username:%s",groupID, username)
 	dbu := &mongodbatlas.DatabaseUser{
 			Roles:        roles,
 			GroupID:      groupID,
@@ -263,20 +259,20 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 			LDAPAuthType: *currentModel.LdapAuthType,
 			Labels:       labels,
 		}
-    log.Debugf("dbu:%+v",dbu)
+    log.Printf("dbu:%+v",dbu)
     _, resp, err := client.DatabaseUsers.Update(context.Background(), groupID, username, dbu)
 
-    log.Debugf("Update resp:%+v",resp)
+    log.Printf("Update resp:%+v",resp)
 	if err != nil {
-        log.Errorf("Error Update database user:%s, error: %s", username, err)
+        log.Printf("Error Update database user:%s, error: %s", username, err)
 		if resp != nil && resp.StatusCode == 404 {
-            log.Warnf("Resource Not Found 404 for UPDATE groupId:%s, database user:%s, err:%+v, resp:%+v", groupID, username, err, resp)
+            log.Printf("Resource Not Found 404 for UPDATE groupId:%s, database user:%s, err:%+v, resp:%+v", groupID, username, err, resp)
             return handler.ProgressEvent{
                 Message: err.Error(),
                 OperationStatus: handler.Failed,
                 HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, nil
 		} else {
-            log.Errorf("Error UPDATE groupId:%s, database user:%s, err:%+v, resp:%+v", groupID, username, err, resp)
+            log.Printf("Error UPDATE groupId:%s, database user:%s, err:%+v, resp:%+v", groupID, username, err, resp)
             return handler.ProgressEvent{
                 Message: err.Error(),
                 OperationStatus: handler.Failed,
@@ -293,7 +289,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Delete handles the Delete event from the Cloudformation service.
 func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-	log.Debugf("Create req:%+v, prevModel:%s, currentModel:%s", req, spew.Sdump(prevModel), spew.Sdump(currentModel))
+	log.Printf("Create req:%+v, prevModel:%s, currentModel:%s", req, spew.Sdump(prevModel), spew.Sdump(currentModel))
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		//return handler.ProgressEvent{}, err
@@ -311,13 +307,13 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 	if err != nil {
 		// Log and handle 404 ok
 		if resp != nil && resp.StatusCode == 404 {
-			log.Warnf("Resource not found for Delete. resp:%+v, error:%+v", resp, err)
+			log.Printf("Resource not found for Delete. resp:%+v, error:%+v", resp, err)
             return handler.ProgressEvent{
                 OperationStatus: handler.Failed,
                 Message: err.Error(),
                 HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, nil
 		} else {
-            log.Errorf("Error deleting database user:%s, err:%+v, resp:%+v", username, err, resp)
+            log.Printf("Error deleting database user:%s, err:%+v, resp:%+v", username, err, resp)
             return handler.ProgressEvent{
                 OperationStatus: handler.Failed,
                 Message: err.Error(),
@@ -347,7 +343,7 @@ func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 	databaseUsers, _, err := client.DatabaseUsers.List(context.Background(), groupID, nil)
 	if err != nil {
-        log.Errorf("error fetching database users groupId%s, error: %s", groupID, err)
+        log.Printf("error fetching database users groupId%s, error: %s", groupID, err)
         return handler.ProgressEvent{
             Message: err.Error(),
             OperationStatus: handler.Failed,

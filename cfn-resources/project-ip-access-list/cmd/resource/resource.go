@@ -2,23 +2,19 @@ package resource
 
 import (
 	"context"
+    "log"
     "strings"
 	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/handler"
 	"github.com/mongodb/mongodbatlas-cloudformation-resources/util"
 	"github.com/rs/xid"
 	"go.mongodb.org/atlas/mongodbatlas"
     "github.com/aws/aws-sdk-go/service/cloudformation"
-    log "github.com/sirupsen/logrus"
 )
-
-func init() {
-    util.InitLogger()
-}
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    log.Info("Create handler called")
-	log.Debugf("currentModel: %+v, prevModel: %+v", currentModel, prevModel)
+    log.Print("Create handler called")
+	log.Printf("currentModel: %+v, prevModel: %+v", currentModel, prevModel)
     
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -30,7 +26,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
     event, err := createEntries(currentModel, client)
 	if err != nil {
-	    log.Errorf("Create err:%v", err)
+	    log.Printf("Create err:%v", err)
 		return event, nil
 	}
 
@@ -38,7 +34,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 	x := guid.String()
 	currentModel.Id = &x
-    log.WithFields(log.Fields{"currentModel":currentModel,}).Debug("+++ Create() +++++++++++++")
+    log.Printf("Create --- currentModel:%+v",currentModel)
 	return handler.ProgressEvent{
 		OperationStatus: handler.Success,
 		Message:         "Create Complete",
@@ -58,7 +54,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 	projectID := *currentModel.ProjectId
 
-    log.WithFields(log.Fields{"currentModel":currentModel,}).Debug("read read read         Read()     read read read")
+    log.Printf("Read --- currentModel:%+v",currentModel)
     
 	entries := []string{}
 	for i, _ := range currentModel.AccessList {
@@ -67,17 +63,17 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 		entries = append(entries, entry)
 	}
 
-    log.WithFields(log.Fields{"entries":entries,}).Debug("read read read         Read()     read read read")
+    log.Printf("Read --- entries:%+v",entries)
 	accesslist, progressEvent, err := getProjectIPAccessList(projectID, entries, client)
-    log.WithFields(log.Fields{"accesslist":accesslist,"err":err,"progressEvent":progressEvent,}).Debug("read read read         Read()     read read read")
+    log.Printf("Read --- accesslist:%+v, progressEvent:%+v",accesslist, progressEvent)
 	if err != nil {
-        log.Errorf("error READ access list projectID:%s, error: %s, progressEvent: %+v", projectID,err, progressEvent)
+        log.Printf("error READ access list projectID:%s, error: %s, progressEvent: %+v", projectID,err, progressEvent)
         return progressEvent, nil
 	}
 
     
 	currentModel.AccessList = flattenAccessList(currentModel.AccessList,accesslist)
-    log.WithFields(log.Fields{">>>>>>> currentModel.Accesslist":currentModel.AccessList,}).Debug("Read()")
+    log.Printf("Read --- currentModel.AccessList:%+v",currentModel.AccessList)
 
 	return handler.ProgressEvent{
 		OperationStatus: handler.Success,
@@ -99,13 +95,13 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
     progressEvent, err := deleteEntries(currentModel, client)
 	if err != nil {
-        log.WithFields(log.Fields{"err":err,}).Error("deleteEntries error")
+        log.Printf("Update deleteEntries error:%+v",err)
         return progressEvent, nil
 	}
 
 	progressEvent, err = createEntries(currentModel, client)
 	if err != nil {
-        log.WithFields(log.Fields{"err":err,}).Error("createEntries error")
+        log.Printf("Update createEntries error:%+v",err)
 		return progressEvent, nil
 	}
 
@@ -129,7 +125,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
     event, err := deleteEntries(currentModel, client)
 	if err != nil {
-        log.WithFields(log.Fields{"err":err,"event":event,}).Error("Delete() deleteEntries error")
+        log.Printf("Delete deleteEntries error:%+v",err)
 		return event, nil
 	}
 
@@ -145,7 +141,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
 	log.Printf("Got list request - returning read - %v", currentModel)
     readEvent, err := Read(req, prevModel, currentModel)
-    log.Debugf("List readEvent:+%v   --------------------------- error:%+v",readEvent,err)
+    log.Printf("List readEvent:+%v   --------------------------- error:%+v",readEvent,err)
     if readEvent.OperationStatus==handler.Failed {
         return readEvent, nil
     }
@@ -169,20 +165,20 @@ func getProjectIPAccessList(projectID string, entries []string, conn *mongodbatl
 		result, resp, err := conn.ProjectIPAccessList.Get(context.Background(), projectID, entry)
 		if err != nil {
             if resp != nil && resp.StatusCode == 404 {
-                log.Warnf("Resource Not Found 404 for READ projectId:%s, entry:%+v, err:%+v", projectID, entry, err)
+                log.Printf("Resource Not Found 404 for READ projectId:%s, entry:%+v, err:%+v", projectID, entry, err)
                 return nil, handler.ProgressEvent{
                     Message: err.Error(),
                     OperationStatus: handler.Failed,
                     HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, err
             } else {
-                log.Errorf("Error READ projectId:%s, err:%+v", projectID, err)
+                log.Printf("Error READ projectId:%s, err:%+v", projectID, err)
                 return nil, handler.ProgressEvent{
                     Message: err.Error(),
                     OperationStatus: handler.Failed,
                     HandlerErrorCode: cloudformation.HandlerErrorCodeServiceInternalError}, err
             }
 		}
-        log.Debugf("%+v",strings.Split(result.CIDRBlock,"/"))
+        log.Printf("%+v",strings.Split(result.CIDRBlock,"/"))
         // if "/32" cidr "it's just you" then convert to the ip addres field
         //if len(strings.Split(entry,"/")==0 {    //  an IPAddress, get's returned 
         /*
@@ -192,7 +188,7 @@ func getProjectIPAccessList(projectID string, entries []string, conn *mongodbatl
             result.CIDRBlock = ""
         }
         */
-        log.WithFields(log.Fields{"result":result,}).Debug("getProjectIPAccessList")
+        log.Printf("getProjectIPAccessList result:%+v",result)
 		accesslist = append(accesslist, result)
 	}
 	return accesslist, handler.ProgressEvent{}, nil
@@ -216,7 +212,7 @@ func getProjectIPAccessListRequest(model *Model) []*mongodbatlas.ProjectIPAccess
 			wl.AwsSecurityGroup = *w.AwsSecurityGroup
 		}
 
-		log.Debugf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ getProjectIPAccessListRequest: %+v\n", wl)
+		log.Printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ getProjectIPAccessListRequest: %+v\n", wl)
 
 		accesslist = append(accesslist, wl)
 	}
@@ -264,16 +260,16 @@ func flattenAccessList(original []AccessListDefinition, accesslist []*mongodbatl
 func createEntries(model *Model, client *mongodbatlas.Client) (handler.ProgressEvent, error) {
 	request := getProjectIPAccessListRequest(model)
 	projectID := *model.ProjectId
-    log.WithFields(log.Fields{"request":request,}).Warningf("createEntries : projectID:%s, model:%+v, request:%+v", projectID)
+    log.Printf("createEntries : projectID:%s, model:%+v, request:%+v", projectID, model, request)
 	result, _, err := client.ProjectIPAccessList.Create(context.Background(), projectID, request)
     if err != nil {
-        log.WithFields(log.Fields{"request":request,}).Errorf("Error createEntries projectId:%s,err:%+v", projectID, err)
+        log.Printf("Error createEntries projectId:%s,err:%+v", projectID, err)
         return handler.ProgressEvent{
             Message: err.Error(),
             OperationStatus: handler.Failed,
             HandlerErrorCode: cloudformation.HandlerErrorCodeInvalidRequest}, err
     }
-    log.WithFields(log.Fields{"result":result,}).Debug("createEntries")
+    log.Printf("createEntries result:%+v", result)
 	return handler.ProgressEvent{}, nil
 }
 
@@ -283,18 +279,16 @@ func deleteEntries(model *Model, client *mongodbatlas.Client) (handler.ProgressE
 	for i, _ := range model.AccessList {
         wl := model.AccessList[i]
 		entry := getEntry(wl)
-        log.WithFields(log.Fields{"entry":entry,}).Debug("deleteEntriesi 1")
 		resp, errDelete := client.ProjectIPAccessList.Delete(context.Background(), projectID, entry)
-        log.WithFields(log.Fields{"errDelete":errDelete,}).Debug("deleteEntries")
 		if errDelete != nil {
             if resp != nil && resp.StatusCode == 404 {
-                log.Warnf("Resource Not Found 404 deleteEntries projectId:%s, entry:%+v, err:%+v", projectID, entry, errDelete)
+                log.Printf("Resource Not Found 404 deleteEntries projectId:%s, entry:%+v, err:%+v", projectID, entry, errDelete)
                 return handler.ProgressEvent{
                     Message: errDelete.Error(),
                     OperationStatus: handler.Failed,
                     HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, errDelete
             } else {
-                log.Errorf("Error READ projectId:%s, err:%+v", projectID, errDelete)
+                log.Printf("Error READ projectId:%s, err:%+v", projectID, errDelete)
                 return handler.ProgressEvent{
                     Message: errDelete.Error(),
                     OperationStatus: handler.Failed,
