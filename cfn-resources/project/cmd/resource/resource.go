@@ -3,18 +3,17 @@ package resource
 import (
 	"context"
 	"fmt"
+    "log"
 	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/handler"
     "github.com/aws/aws-sdk-go/service/cloudformation"
 	matlasClient "go.mongodb.org/atlas/mongodbatlas"
-	"log"
-
-	"github.com/davecgh/go-spew/spew"
-	"github.com/mongodb/mongodbatlas-cloudformation-resources/util"
+    "github.com/mongodb/mongodbatlas-cloudformation-resources/util"
 )
+
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-	log.Printf("Create -- currentModel: %+v", *currentModel)
+	log.Printf("Create log.Printf-- currentModel: %+v", *currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{
@@ -50,7 +49,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Read handles the Read event from the Cloudformation service.
 func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-	spew.Dump(currentModel)
+	//spew.Dump(currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		//return handler.ProgressEvent{}, err
@@ -128,9 +127,9 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 	}
 	log.Printf("Delete Project prevModel:%+v currentModel:%+v", *prevModel, *currentModel)
-	spew.Dump(prevModel)
+	//spew.Dump(prevModel)
     log.Println("----------------------------")
-	spew.Dump(currentModel)
+	//spew.Dump(currentModel)
 
 	var id string
 	if currentModel.Id != nil {

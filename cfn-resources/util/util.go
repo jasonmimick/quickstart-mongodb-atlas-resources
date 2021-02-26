@@ -3,10 +3,8 @@ package util
 import (
 	"github.com/Sectorbob/mlab-ns2/gae/ns/digest"
 	"go.mongodb.org/atlas/mongodbatlas"
-   logrus "github.com/sirupsen/logrus"
-   "log"
+    "log"
 	"strings"
-    "os"
 )
 
 const (
@@ -31,7 +29,6 @@ func EnsureAWSRegion(region string) string {
 func CreateMongoDBClient(publicKey, privateKey string) (*mongodbatlas.Client, error) {
 	// setup a transport to handle digest
 	log.Printf("CreateMongoDBClient--- publicKey:%s", publicKey)
-	logrus.Debugf("CreateMongoDBClient--- publicKey:%s", publicKey)
 	transport := digest.NewTransport(publicKey, privateKey)
 
 	// initialize the client
@@ -46,19 +43,4 @@ func CreateMongoDBClient(publicKey, privateKey string) (*mongodbatlas.Client, er
 	return atlas, nil
 }
 
-// call this from each resource init() to setup
-// the logger consistently
-func InitLogger() {
-  // Log as JSON instead of the default ASCII formatter.
-  logrus.SetFormatter(&logrus.JSONFormatter{})
-
-  // Output to stdout instead of the default stderr
-  // Can be any io.Writer, see below for File example
-  logrus.SetOutput(os.Stdout)
-
-
-  // Only log the warning severity or above.
-  logrus.SetLevel(logrus.DebugLevel)
-  //log.SetLevel(log.WarnLevel)
-}
 
