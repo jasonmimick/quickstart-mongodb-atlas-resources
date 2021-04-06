@@ -3,17 +3,22 @@ package resource
 import (
 	"context"
 	"fmt"
-    "log"
+    log "github.com/sirupsen/logrus"
 	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/handler"
     "github.com/aws/aws-sdk-go/service/cloudformation"
 	matlasClient "go.mongodb.org/atlas/mongodbatlas"
     "github.com/mongodb/mongodbatlas-cloudformation-resources/util"
 )
 
+func init() {
+    util.SetupLogger("mongodb-atlas-project")
+}
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-	log.Printf("Create log.Printf-- currentModel: %+v", *currentModel)
+	log.Debugf("Create log.Debugf-- currentModel: %+v", *currentModel)
+    log.Info("Create Info wow!")
+    log.Debug("Create Debug whwoooo hoooo!")
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{
@@ -27,7 +32,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 	})
 	if err != nil {
 		//return handler.ProgressEvent{}, fmt.Errorf("error creating project: %s", err)
-        log.Printf("Create - error: %+v", err)
+        log.Debugf("Create - error: %+v", err)
         // TODO- Should detect and return HandlerErrorCodeAlreadyExists
         return handler.ProgressEvent{
             OperationStatus: handler.Failed,
@@ -83,11 +88,11 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 	}
 
 	id := *currentModel.Id
-	log.Printf("Looking for project: %s", id)
+	log.Debugf("Looking for project: %s", id)
 	project, _, err := client.Projects.GetOneProject(context.Background(), id)
 	if err != nil {
 		//return handler.ProgressEvent{}, fmt.Errorf(
-        log.Printf("Read - error reading project with id(%s): %s", id, err)
+        log.Debugf("Read - error reading project with id(%s): %s", id, err)
         return handler.ProgressEvent{
             OperationStatus: handler.Failed,
             Message: "Resource Not Found",
@@ -126,7 +131,9 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 		return handler.ProgressEvent{}, err
 
 	}
-	log.Printf("Delete Project prevModel:%+v currentModel:%+v", *prevModel, *currentModel)
+    log.Info("Delete Info wow!")
+    log.Debug("Delete Debug whwoooo hoooo!")
+	log.Debugf("Delete Project prevModel:%+v currentModel:%+v", *prevModel, *currentModel)
 	//spew.Dump(prevModel)
     log.Println("----------------------------")
 	//spew.Dump(currentModel)
@@ -139,14 +146,14 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
     if len(id)==0 {
 		name := *currentModel.Name
 		if len(name) > 0 {
-			log.Printf("Project id was nil, try lookup name:%s", name)
+			log.Debugf("Project id was nil, try lookup name:%s", name)
 			project, _, err := client.Projects.GetOneProjectByName(context.Background(), name)
 			if err != nil {
 				return handler.ProgressEvent{
                     Message: err.Error(),
                     HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, err
 			}
-			log.Printf("Looked up project:%+v", project)
+			log.Debugf("Looked up project:%+v", project)
 			id = project.ID
 		} else {
             err := fmt.Errorf("@@@@Error deleting project. No Id or Name found currentModel:%+v)", currentModel)
@@ -155,12 +162,12 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
                 HandlerErrorCode: cloudformation.HandlerErrorCodeNotFound}, err
 		}
 	}
-	log.Printf("Deleting project with id(%s)", id)
+	log.Debugf("Deleting project with id(%s)", id)
 
 	_, err = client.Projects.Delete(context.Background(), id)
 	if err != nil {
 		//return handler.ProgressEvent{}, fmt.Errorf("####error deleting project with id(%s): %s", id, err)
-        log.Printf("####error deleting project with id(%s): %s", id, err)
+        log.Warnf("####error deleting project with id(%s): %s", id, err)
 
         return handler.ProgressEvent{
             OperationStatus: handler.Failed,
@@ -178,7 +185,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // List handles the List event from the Cloudformation service.
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-	log.Printf("List.Project prevModel:%+v currentModel:%+v", prevModel, currentModel)
+	log.Debugf("List.Project prevModel:%+v currentModel:%+v", prevModel, currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{}, err

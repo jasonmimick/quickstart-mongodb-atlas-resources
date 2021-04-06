@@ -3,8 +3,10 @@ package util
 import (
 	"github.com/Sectorbob/mlab-ns2/gae/ns/digest"
 	"go.mongodb.org/atlas/mongodbatlas"
-    "log"
 	"strings"
+	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/logging"
+    log "github.com/sirupsen/logrus"
+    "os"
 )
 
 const (
@@ -43,4 +45,40 @@ func CreateMongoDBClient(publicKey, privateKey string) (*mongodbatlas.Client, er
 	return atlas, nil
 }
 
+const EnvLogLevel = "LOG_LEVEL"
+
+// defaultLogLevel can be set during compile time with an ld flag to enable
+// more verbose logging. 
+// For example, 
+// env GOOS=$(goos) CGO_ENABLED=$(cgo) GOARCH=$(goarch) go build -ldflags="-s -w -X 'github.com/mongodb/mongodbatlas-cloudformation-resources/util.defaultLogLevel=debug'" -tags="$(tags)" -o bin/handler cmd/main.go
+var defaultLogLevel = "info"
+
+func getLogLevel() log.Level {
+	levelString, exists := os.LookupEnv(EnvLogLevel)
+	if !exists {
+        log.Errorf("getLogLevel() Environment variable '%s' not found. Set it in template.yaml (defaultLogLevel=%v)",EnvLogLevel, defaultLogLevel)
+        levelString = defaultLogLevel
+	}
+
+	level, err := log.ParseLevel(levelString)
+	if err != nil {
+		log.Errorf("error parsing %s: %v", EnvLogLevel, err)
+        level, err = log.ParseLevel(defaultLogLevel)
+        return level
+	}
+    log.Printf("getLogLevel() levelString=%s level=%v",levelString, level)
+	return level
+}
+
+// SetupLogger is called by each resource handler to centrally
+// configure the log level and properly connect to the cfn
+// cloudwatch writer
+func SetupLogger(loggerPrefix string) {
+    logger := logging.New(loggerPrefix)
+	log.SetOutput(logger.Writer())
+    log.SetFormatter(&log.JSONFormatter{})
+    log.SetLevel( getLogLevel() )
+    log.Info("INFO setLogger")
+    log.Debug("DEBUG setLogger")
+}
 
