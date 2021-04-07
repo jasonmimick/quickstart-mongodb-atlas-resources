@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-    log "github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"strings"
 
 	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/handler"
@@ -15,8 +15,8 @@ import (
 )
 
 func setup() {
-    util.SetupLogger("mongodb-atlas-cluster")
-    
+	util.SetupLogger("mongodb-atlas-cluster")
+
 }
 
 func castNO64(i *int64) *int {
@@ -39,7 +39,7 @@ func stringPtr(i string) *string {
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    setup()
+	setup()
 	log.Debugf("Create() currentModel:%+v", currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -208,7 +208,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Read handles the Read event from the Cloudformation service.
 func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    setup()
+	setup()
 	log.Debugf("Read() currentModel:%+v", currentModel)
 
 	// Callback is not called - Create() and Update() get recalled on
@@ -347,50 +347,50 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 	log.Debugf("step 2 cluster:+%v", cluster)
 
 	/*
-		if cluster.ProviderSettings != nil {
-	        ps := &ProviderSettings{
-				BackingProviderName: &cluster.ProviderSettings.BackingProviderName,
-				DiskIOPS:            castNO64(cluster.ProviderSettings.DiskIOPS),
-				EncryptEBSVolume:    cluster.ProviderSettings.EncryptEBSVolume,
-				InstanceSizeName:    &cluster.ProviderSettings.InstanceSizeName,
-				VolumeType:          &cluster.ProviderSettings.VolumeType,
+			if cluster.ProviderSettings != nil {
+		        ps := &ProviderSettings{
+					BackingProviderName: &cluster.ProviderSettings.BackingProviderName,
+					DiskIOPS:            castNO64(cluster.ProviderSettings.DiskIOPS),
+					EncryptEBSVolume:    cluster.ProviderSettings.EncryptEBSVolume,
+					InstanceSizeName:    &cluster.ProviderSettings.InstanceSizeName,
+					VolumeType:          &cluster.ProviderSettings.VolumeType,
+				}
+		        rn := util.EnsureAWSRegion(cluster.ProviderSettings.RegionName)
+		        ps.RegionName = &rn
+		        if currentModel.ProviderSettings.AutoScaling != nil {
+		            ps.AutoScaling = &AutoScaling{
+		                DiskGBEnabled: cluster.ProviderSettings.AutoScaling.DiskGBEnabled,
+		            }
+		            if currentModel.ProviderSettings.AutoScaling.Compute != nil {
+		                compute := &Compute{}
+
+		                if currentModel.ProviderSettings.AutoScaling.Compute.Enabled != nil {
+		                    compute.Enabled = cluster.ProviderSettings.AutoScaling.Compute.Enabled
+		                }
+		                if currentModel.ProviderSettings.AutoScaling.Compute.ScaleDownEnabled != nil {
+		                    compute.ScaleDownEnabled = cluster.ProviderSettings.AutoScaling.Compute.ScaleDownEnabled
+		                }
+		                if currentModel.ProviderSettings.AutoScaling.Compute.MinInstanceSize != nil {
+		                    compute.MinInstanceSize = &cluster.ProviderSettings.AutoScaling.Compute.MinInstanceSize
+		                }
+		                if currentModel.ProviderSettings.AutoScaling.Compute.MaxInstanceSize != nil {
+		                    compute.MaxInstanceSize = &cluster.ProviderSettings.AutoScaling.Compute.MaxInstanceSize
+		                }
+		                log.Debugf("compute -- what?> +%v",compute)
+		                ps.AutoScaling.Compute = compute
+		            }
+		        }
+
+		        currentModel.ProviderSettings = ps
 			}
-	        rn := util.EnsureAWSRegion(cluster.ProviderSettings.RegionName)
-	        ps.RegionName = &rn
-	        if currentModel.ProviderSettings.AutoScaling != nil {
-	            ps.AutoScaling = &AutoScaling{
-	                DiskGBEnabled: cluster.ProviderSettings.AutoScaling.DiskGBEnabled,
-	            }
-	            if currentModel.ProviderSettings.AutoScaling.Compute != nil {
-	                compute := &Compute{}
 
-	                if currentModel.ProviderSettings.AutoScaling.Compute.Enabled != nil {
-	                    compute.Enabled = cluster.ProviderSettings.AutoScaling.Compute.Enabled
-	                }
-	                if currentModel.ProviderSettings.AutoScaling.Compute.ScaleDownEnabled != nil {
-	                    compute.ScaleDownEnabled = cluster.ProviderSettings.AutoScaling.Compute.ScaleDownEnabled
-	                }
-	                if currentModel.ProviderSettings.AutoScaling.Compute.MinInstanceSize != nil {
-	                    compute.MinInstanceSize = &cluster.ProviderSettings.AutoScaling.Compute.MinInstanceSize
-	                }
-	                if currentModel.ProviderSettings.AutoScaling.Compute.MaxInstanceSize != nil {
-	                    compute.MaxInstanceSize = &cluster.ProviderSettings.AutoScaling.Compute.MaxInstanceSize
-	                }
-	                log.Debugf("compute -- what?> +%v",compute)
-	                ps.AutoScaling.Compute = compute
-	            }
-	        }
+		    if currentModel.ReplicationSpecs != nil {
+			    currentModel.ReplicationSpecs = flattenReplicationSpecs(cluster.ReplicationSpecs)
+		    }
 
-	        currentModel.ProviderSettings = ps
-		}
-
-	    if currentModel.ReplicationSpecs != nil {
-		    currentModel.ReplicationSpecs = flattenReplicationSpecs(cluster.ReplicationSpecs)
-	    }
-
-		if currentModel.ReplicationFactor != nil {
-		    currentModel.ReplicationFactor = castNO64(cluster.ReplicationFactor)
-	    }
+			if currentModel.ReplicationFactor != nil {
+			    currentModel.ReplicationFactor = castNO64(cluster.ReplicationFactor)
+		    }
 	*/
 	log.Debugf("Read() end currentModel:%+v", currentModel)
 
@@ -403,7 +403,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 // Update handles the Update event from the Cloudformation service.
 func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    setup()
+	setup()
 	log.Debugf("Update() currentModel:%+v", currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -519,7 +519,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Delete handles the Delete event from the Cloudformation service.
 func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    setup()
+	setup()
 	log.Debugf("Delete() currentModel:%+v", currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -568,7 +568,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // List NOOP
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-    setup()
+	setup()
 	return handler.ProgressEvent{
 		OperationStatus: handler.Success,
 		Message:         "List Complete",

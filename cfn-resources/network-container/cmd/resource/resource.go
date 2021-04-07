@@ -3,10 +3,10 @@ package resource
 import (
 	"context"
 	"fmt"
-    "log"
 	"github.com/aws-cloudformation/cloudformation-cli-go-plugin/cfn/handler"
 	"github.com/mongodb/mongodbatlas-cloudformation-resources/util"
 	"go.mongodb.org/atlas/mongodbatlas"
+	"log"
 )
 
 const (

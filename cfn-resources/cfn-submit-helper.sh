@@ -45,7 +45,7 @@ else
         cwd=$(pwd)
         cd "${resource}"
         echo "resource: ${resource}"
-        if [[ "${LOG_LEVEL}" == "debug" ]]; then
+        if [[ "${_DEFAULT_LOG_LEVEL}" == "debug" ]]; then
             make debug
         else
             make
