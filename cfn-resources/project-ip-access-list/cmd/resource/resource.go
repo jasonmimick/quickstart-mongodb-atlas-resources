@@ -11,13 +11,14 @@ import (
     "github.com/aws/aws-sdk-go/service/cloudformation"
 )
 
-func init() {
+func setup() {
     util.SetupLogger("mongodb-atlas-project-ip-access-list")
 }
 
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
     log.Print("Create handler called")
 	log.Debugf("currentModel: %+v, prevModel: %+v", currentModel, prevModel)
     
@@ -49,6 +50,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Read handles the Read event from the Cloudformation service.
 func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{
@@ -90,6 +92,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 // Update handles the Update event from the Cloudformation service.
 func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{
@@ -120,6 +123,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Delete handles the Delete event from the Cloudformation service.
 func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{
@@ -144,6 +148,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 // List handles the List event from the Cloudformation service.
 // NO-OP
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("Got list request - returning read - %v", currentModel)
     readEvent, err := Read(req, prevModel, currentModel)
     log.Debugf("List readEvent:+%v   --------------------------- error:%+v",readEvent,err)

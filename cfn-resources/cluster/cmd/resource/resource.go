@@ -14,8 +14,9 @@ import (
 	"go.mongodb.org/atlas/mongodbatlas"
 )
 
-func init() {
+func setup() {
     util.SetupLogger("mongodb-atlas-cluster")
+    
 }
 
 func castNO64(i *int64) *int {
@@ -38,6 +39,7 @@ func stringPtr(i string) *string {
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("Create() currentModel:%+v", currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -206,6 +208,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Read handles the Read event from the Cloudformation service.
 func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("Read() currentModel:%+v", currentModel)
 
 	// Callback is not called - Create() and Update() get recalled on
@@ -400,6 +403,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 // Update handles the Update event from the Cloudformation service.
 func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("Update() currentModel:%+v", currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -515,6 +519,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Delete handles the Delete event from the Cloudformation service.
 func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("Delete() currentModel:%+v", currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -563,6 +568,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // List NOOP
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	return handler.ProgressEvent{
 		OperationStatus: handler.Success,
 		Message:         "List Complete",

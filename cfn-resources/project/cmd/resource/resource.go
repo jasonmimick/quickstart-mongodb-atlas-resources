@@ -10,14 +10,14 @@ import (
     "github.com/mongodb/mongodbatlas-cloudformation-resources/util"
 )
 
-func init() {
+func setup() {
     util.SetupLogger("mongodb-atlas-project")
-}
 
+}
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("Create log.Debugf-- currentModel: %+v", *currentModel)
-    log.Info("Create Info wow!")
     log.Debug("Create Debug whwoooo hoooo!")
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -54,6 +54,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Read handles the Read event from the Cloudformation service.
 func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	//spew.Dump(currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
@@ -113,6 +114,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 // Update handles the Update event from the Cloudformation service.
 func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	// no-op
 
 	return handler.ProgressEvent{
@@ -125,18 +127,15 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Delete handles the Delete event from the Cloudformation service.
 func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {
 		return handler.ProgressEvent{}, err
 
 	}
-    log.Info("Delete Info wow!")
     log.Debug("Delete Debug whwoooo hoooo!")
 	log.Debugf("Delete Project prevModel:%+v currentModel:%+v", *prevModel, *currentModel)
-	//spew.Dump(prevModel)
-    log.Println("----------------------------")
-	//spew.Dump(currentModel)
 
 	var id string
 	if currentModel.Id != nil {
@@ -185,6 +184,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // List handles the List event from the Cloudformation service.
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
 	log.Debugf("List.Project prevModel:%+v currentModel:%+v", prevModel, currentModel)
 	client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
 	if err != nil {

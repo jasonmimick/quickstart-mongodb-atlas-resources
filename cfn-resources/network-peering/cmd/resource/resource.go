@@ -11,7 +11,7 @@ import (
     "github.com/aws/aws-sdk-go/service/cloudformation"
 )
 
-func init() {
+func setup() {
     util.SetupLogger("mongodb-atlas-network-peering")
 }
 
@@ -122,7 +122,7 @@ func validateOrCreateNetworkContainer(req *handler.Request, prevModel *Model, cu
 
 // Create handles the Create event from the Cloudformation service.
 func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
-
+    setup()
     client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
     if err != nil {
         log.Warnf("Create - error err:%+v",err)
@@ -193,6 +193,7 @@ func Create(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Read handles the Read event from the Cloudformation service.
 func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
     client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
     if err != nil {
         log.Warnf("Delete err:%+v",err)
@@ -254,6 +255,7 @@ func Read(req handler.Request, prevModel *Model, currentModel *Model) (handler.P
 
 // Update handles the Update event from the Cloudformation service.
 func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
     log.Debugf("Update currentModel:%+v", currentModel)
     client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
     if err != nil {
@@ -322,6 +324,7 @@ func Update(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // Delete handles the Delete event from the Cloudformation service.
 func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
     client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
     if err != nil {
         log.Debugf("Delete - error err:%+v",err)
@@ -367,6 +370,7 @@ func Delete(req handler.Request, prevModel *Model, currentModel *Model) (handler
 
 // List handles the List event from the Cloudformation service.
 func List(req handler.Request, prevModel *Model, currentModel *Model) (handler.ProgressEvent, error) {
+    setup()
     client, err := util.CreateMongoDBClient(*currentModel.ApiKeys.PublicKey, *currentModel.ApiKeys.PrivateKey)
     if err != nil {
         log.Warnf("List - error err:%+v",err)
