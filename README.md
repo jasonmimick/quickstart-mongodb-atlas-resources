@@ -1,4 +1,4 @@
-# MongoDB Atlas AWS CloudFormation Resources & Quickstart
+# MongoDB Atlas AWS CloudFormation Resources
 
 ***This file will be accurate post GA of the MongoDB Atlas Resource Provider for CloudFormation***
 
@@ -8,11 +8,8 @@ Use AWS CloudFormation to manage [MongoDB Atlas](https://www.mongodb.com/cloud/a
 
 The quickest way to get started:
 
-1. Clone this repository.
-2. Create Github Secrets for your AWS and MongoDB accounts. See [Securing your Quickstart](#securing-your-quickstart).
-3. Run the [Launch Quickstart](https://github.com/mongodb/mongodbatlas-cloudformation-resources/actions) Github Action.
+* Launch the [Quickstart](https://aws.amazon.com/quickstart/architecture/mongodb-atlas/).
 
-If you prefer to run things locally, see [Using the Atlas CFN Resources](#using-the-atlas-cfn-resources).
 
 # Support, Bugs, Feature Requests
 
