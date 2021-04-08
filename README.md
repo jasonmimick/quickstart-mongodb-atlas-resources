@@ -53,56 +53,20 @@ Step 3) Follow the Github docs on how to [create a Secret](https://docs.github.c
 # Requirements
 
 - [AWS CloudFormation CLI](https://github.com/aws-cloudformation/cloudformation-cli) 
-- (Optional - only need if building from source) [AWS CloudFormation CLI Go Plugin](https://github.com/aws-cloudformation/cloudformation-cli-go-plugin/) 1.0
-- (Optional - only need if building from source) [Go](https://golang.org/doc/install) 1.14 
-
-
-# Using the Atlas CFN Resources 
-
-This project contains 2 main items:
-
-1. [quickstart-mongodbatlas](quickstart-mongodbatlas) A sample quickstart AWS CloudFormation template to launch a MongoDB Atlas deployment stack. This template uses the Atlas custom CFN resources. It is provided as an example starting point from which to build your own CloudFormation projects using MongoDB Atlas.
-
-2. [cfn-resources](cfn-resources) A set of AWS CloudFormation custom resource providers for MongoDB Atlas Resources. Currently, AWS requires users to manually deploy these resources in each AWS region one one desires to use them in. We support this workflow through the standard AWS cfn submit tooling. Scripts and Github actions are contained in this repository which demonstrate automating this deployment process.
-
+- (Optional - only need if building from source) [AWS CloudFormation CLI Go Plugin](https://github.com/aws-cloudformation/cloudformation-cli-go-plugin/)
+- (Optional - only need if building from source) [Go](https://golang.org/doc/install) 
 
 ## Registering resources 
 
 1. Please check that you satisfy all the [requirements](#Requirements) before proceeding.
 2. Clone this repo. 
-3. A helper script `cfn-submit-helper.sh` will build and submit each resource for you. You can also run the `cfn submit` tool yourself. Note- this step will soon not be required when AWS launch a public registry. 
+3. A helper script `cfn-submit-helper.sh` will build and submit each resource for you. You can also run the `cfn submit` tool yourself. 
 
 The following command builds and registers all the types used in the quickstart:
 
 ```
 cd mongodbatlas-cloudformation-resources\cfn-resources
 ./cfn-submit-helper.sh project cluster database-user project-ip-access-list network-peering
-```
-
-# Developing the CloudFormation Resource Provider
-
-If you wish to work on the CloudFormation resource provider, you'll first need [Go](https://golang.org/doc/install) installed on your machine (please check the [requirements](#Requirements) before proceeding).
-
-Note: This project uses [Go Modules](https://blog.golang.org/using-go-modules) making it safe to work with it outside of your existing [GOPATH](https://golang.org/doc/code.html#GOPATH). The instructions that follow assume a directory in your home directory outside of the standard GOPATH (i.e $HOME/development/).
-
-Clone repository to: `$HOME/development/`
-
-```
-$ cd $HOME/development/
-$ git clone https://github.com/mongodb/mongodbatlas-cloudformation-resources.git
-...
-```
-
-To develop a resource provider, you need to follow steps from [AWS CloudFormation CLI](https://github.com/aws-cloudformation/cloudformation-cli), you can read more info about developing a resource provider [here](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html).
-
-To create a resource, you need to create a folder first then generate files with `cfn init`
-
-```
-$ cd $HOME/development/mongodbatlas-cloudformation-resources
-$ mkdir resource
-$ cd resource
-$ cfn init
-...
 ```
 
 # Testing the Provider
